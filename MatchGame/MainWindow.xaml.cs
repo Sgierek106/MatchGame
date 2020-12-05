@@ -89,7 +89,8 @@ namespace MatchGame
                 lastTextBlockClicked = textBlock;
                 findingMatch = true;
             }
-            else if(textBlock.Tag == lastTextBlockClicked.Tag)
+            else if(textBlock.Tag == lastTextBlockClicked.Tag &&
+                    textBlock.Name != lastTextBlockClicked.Name)
             {
                 matchesFound++;
                 textBlock.Text = Convert.ToString(textBlock.Tag);
