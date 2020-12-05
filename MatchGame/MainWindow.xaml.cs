@@ -1,18 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace MatchGame
@@ -38,7 +29,7 @@ namespace MatchGame
         {
             tenthsOfSecondsElapsed++;
             timeTextBlock.Text = (tenthsOfSecondsElapsed / 10F).ToString("0.0s");
-            if(matchesFound == 8)
+            if (matchesFound == 8)
             {
                 timer.Stop();
                 timeTextBlock.Text = timeTextBlock.Text + " - Play again?";
@@ -82,26 +73,34 @@ namespace MatchGame
         private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Emoji.Wpf.TextBlock textBlock = sender as Emoji.Wpf.TextBlock;
+            SolidColorBrush matchedBrush = new SolidColorBrush(Colors.Green);
 
-            if(findingMatch == false)
+            // Only proceed if this TextBlock hasn't already been matched.
+            if (textBlock.Background == null)
             {
-                textBlock.Text = Convert.ToString(textBlock.Tag);
-                lastTextBlockClicked = textBlock;
-                findingMatch = true;
-            }
-            else if(textBlock.Tag == lastTextBlockClicked.Tag &&
-                    textBlock.Name != lastTextBlockClicked.Name)
-            {
-                matchesFound++;
-                textBlock.Text = Convert.ToString(textBlock.Tag);
-                lastTextBlockClicked.Background = new SolidColorBrush(Colors.Green);
-                textBlock.Background = new SolidColorBrush(Colors.Green);
-                findingMatch = false;
-            }
-            else
-            {
-                lastTextBlockClicked.Text = "?";
-                findingMatch = false;
+                if (findingMatch == false)
+                {
+                    // If this is the first emoji of the pair
+                    textBlock.Text = Convert.ToString(textBlock.Tag);
+                    lastTextBlockClicked = textBlock;
+                    findingMatch = true;
+                }
+                else if (textBlock.Tag == lastTextBlockClicked.Tag &&
+                        textBlock.Name != lastTextBlockClicked.Name)
+                {
+                    // If the second emoji matches the first emoji
+                    matchesFound++;
+                    textBlock.Text = Convert.ToString(textBlock.Tag);
+                    lastTextBlockClicked.Background = matchedBrush;
+                    textBlock.Background = matchedBrush;
+                    findingMatch = false;
+                }
+                else
+                {
+                    // If the second emoji doesn't match the first
+                    lastTextBlockClicked.Text = "?";
+                    findingMatch = false;
+                }
             }
         }
 
