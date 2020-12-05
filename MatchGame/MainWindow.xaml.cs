@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -66,7 +67,7 @@ namespace MatchGame
                 {
                     int index = random.Next(animalEmoji.Count);
                     string nextEmoji = animalEmoji[index];
-                    textBlock.Text = nextEmoji;
+                    textBlock.Tag = nextEmoji;
                     animalEmoji.RemoveAt(index);
                 }
             }
@@ -81,21 +82,24 @@ namespace MatchGame
         private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Emoji.Wpf.TextBlock textBlock = sender as Emoji.Wpf.TextBlock;
+
             if(findingMatch == false)
             {
-                textBlock.Visibility = Visibility.Hidden;
+                textBlock.Text = Convert.ToString(textBlock.Tag);
                 lastTextBlockClicked = textBlock;
                 findingMatch = true;
             }
-            else if(textBlock.Text == lastTextBlockClicked.Text)
+            else if(textBlock.Tag == lastTextBlockClicked.Tag)
             {
                 matchesFound++;
-                textBlock.Visibility = Visibility.Hidden;
+                textBlock.Text = Convert.ToString(textBlock.Tag);
+                lastTextBlockClicked.Background = new SolidColorBrush(Colors.Green);
+                textBlock.Background = new SolidColorBrush(Colors.Green);
                 findingMatch = false;
             }
             else
             {
-                lastTextBlockClicked.Visibility = Visibility.Visible;
+                lastTextBlockClicked.Text = "?";
                 findingMatch = false;
             }
         }
