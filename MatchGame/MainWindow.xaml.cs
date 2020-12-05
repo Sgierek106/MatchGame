@@ -60,7 +60,7 @@ namespace MatchGame
 
             Random random = new Random();
 
-            foreach (TextBlock textBlock in mainGrid.Children.OfType<TextBlock>())
+            foreach (Emoji.Wpf.TextBlock textBlock in mainGrid.Children.OfType<Emoji.Wpf.TextBlock>())
             {
                 if (textBlock.Name != "timeTextBlock")
                 {
@@ -76,11 +76,11 @@ namespace MatchGame
             matchesFound = 0;
         }
 
-        TextBlock lastTextBlockClicked;
+        Emoji.Wpf.TextBlock lastTextBlockClicked;
         bool findingMatch = false;
         private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            TextBlock textBlock = sender as TextBlock;
+            Emoji.Wpf.TextBlock textBlock = sender as Emoji.Wpf.TextBlock;
             if(findingMatch == false)
             {
                 textBlock.Visibility = Visibility.Hidden;
